@@ -1,0 +1,16 @@
+const baseApi = "https://cnas2cs.herokuapp.com";
+var registerUrl = baseApi + "/register";
+var loginUrl = baseApi + "/login";
+var profileUrl = baseApi + "/profile";
+var demandeUrl = baseApi + "/demande";
+var transporteurUrl = baseApi + "/ets";
+var propositionUrl = baseApi + "/proposition";
+var forgetPasswordUrl = baseApi + "/forget_password";
+var resetPasswordUrl = baseApi + "/reset-password";
+var storeProfilePicUrl = baseApi + "/store-profile-pic";
+var requestEstimateUrl = baseApi + "/request_estimate";
+var storeRequestUrl = requestEstimateUrl + "/store_offer";
+var profileDetailsUrl = baseApi + "/profile-details";
+var getMyRequestsUrl = baseApi + "/getMyRequest";
+var changePasswordUrl = baseApi + "/change-password";
+var updateProfileUrl = baseApi + "/update-profile";
