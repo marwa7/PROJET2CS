@@ -2,6 +2,7 @@ import 'package:cnas/config/const.dart';
 import 'package:cnas/config/size_config.dart';
 import 'package:cnas/data%20classes/Demande.dart';
 import 'package:cnas/models/demande_model.dart';
+import 'package:cnas/views/demande/detail_demande_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cnas/config/size_config.dart';
@@ -110,69 +111,74 @@ class _ListDemandeState extends State<ListDemande> {
                       height: MediaQuery.of(context).size.height * 0.7,
                       child: ListView.builder(
                         itemCount: listDemande.length,
-                        itemBuilder: (context, index) => Container(
-                            child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      width: 1, color: Color(0xFFF6F6F6)))),
-                          height: MediaQuery.of(context).size.height * 0.08,
-                          child: Row(
-                            children: [
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: MediaQuery.of(context).size.width *
-                                      (0.7 / 5),
-                                  child: Text(listDemande[index].idDemande,
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DetailDemande(id: listDemande[index].idDemande ) ));
+                          },
+                          child: Container(
+                              child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 1, color: Color(0xFFF6F6F6)))),
+                            height: MediaQuery.of(context).size.height * 0.08,
+                            child: Row(
+                              children: [
+                                Container(
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.7 / 5),
+                                    child: Text(listDemande[index].idDemande,
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF767676)))),
+                                Container(
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.7 / 5),
+                                    child: Text(listDemande[index].ville,
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF767676)))),
+                                Container(
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.7 / 5),
+                                    child: Text(listDemande[index].dateCreation,
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF767676)))),
+                                Container(
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.7 / 5),
+                                    child: Text(listDemande[index].dateCreation,
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF767676)))),
+                                Container(
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.7 / 5),
+                                    color: getStateBackColor(
+                                        listDemande[index].etat),
+                                    child: Text(
+                                      listDemande[index].etat,
                                       style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFF767676)))),
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: MediaQuery.of(context).size.width *
-                                      (0.7 / 5),
-                                  child: Text(listDemande[index].ville,
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xFF767676)))),
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: MediaQuery.of(context).size.width *
-                                      (0.7 / 5),
-                                  child: Text(listDemande[index].dateCreation,
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xFF767676)))),
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: MediaQuery.of(context).size.width *
-                                      (0.7 / 5),
-                                  child: Text(listDemande[index].dateCreation,
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xFF767676)))),
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: MediaQuery.of(context).size.width *
-                                      (0.7 / 5),
-                                  color: getStateBackColor(
-                                      listDemande[index].etat),
-                                  child: Text(
-                                    listDemande[index].etat,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: getStateColor(
-                                            listDemande[index].etat)),
-                                  )),
-                            ],
-                          ),
-                        )),
+                                          color: getStateColor(
+                                              listDemande[index].etat)),
+                                    )),
+                              ],
+                            ),
+                          )),
+                        ),
                       ),
                     ),
                   ]),
@@ -186,10 +192,11 @@ class _ListDemandeState extends State<ListDemande> {
     dio.Response? response = await demandeModel.getDemande();
 
     if (response != null) {
-      print(response.data);
       for (var i in response.data) {
-        var demande = Demande.fromJson(i);
-        listDemande.add(demande);
+        if (i != null) {
+          var demande = Demande.fromJson(i);
+          listDemande.add(demande);
+        }
       }
     }
 

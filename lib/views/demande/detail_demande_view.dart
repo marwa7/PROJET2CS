@@ -8,21 +8,22 @@ import 'package:cnas/config/size_config.dart';
 import 'package:dio/dio.dart' as dio;
 
 class DetailDemande extends StatefulWidget {
-  const DetailDemande({Key? key}) : super(key: key);
+  String id;
+  DetailDemande({Key? key, required this.id}) : super(key: key);
 
   @override
   State<DetailDemande> createState() => _DetailDemandeState();
 }
 
 class _DetailDemandeState extends State<DetailDemande> {
-  // List<Demande> listDemande = [];
-  // bool isLoading = true;
+  Demande? demande = null;
+  bool isLoading = true;
 
-  // @override
-  // void initState() {
-  //   getDemande();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    getDemandeById();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class _DetailDemandeState extends State<DetailDemande> {
 
     return Scaffold(
         backgroundColor: Color(0xFFECF1FD),
-        body: Column(
+        body: isLoading ? Center(child: CircularProgressIndicator(),) : Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -39,6 +40,7 @@ class _DetailDemandeState extends State<DetailDemande> {
               height: MediaQuery.of(context).size.height * 0.05,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
@@ -58,7 +60,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                               padding: EdgeInsets.only(
                                   left:
                                       MediaQuery.of(context).size.width * 0.02),
-                              child: Text('Demande N° xxxxxx ',
+                              child: Text('Demande N° ' + demande!.idDemande,
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w700,
@@ -70,11 +72,11 @@ class _DetailDemandeState extends State<DetailDemande> {
                               width: MediaQuery.of(context).size.width * 0.1,
                               color: Colors.lightGreen,
                               child: Text(
-                                'ETAT',
+                                demande!.etat,
                                 style: GoogleFonts.poppins(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.green),
+                                    color: getStateColor( demande!.etat)),
                               ),
                             )
                           ],
@@ -104,7 +106,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                                   right:
                                       MediaQuery.of(context).size.width * 0.02),
                               alignment: Alignment.centerLeft,
-                              child: Text("Adresse de l'assuré : 213457 ",
+                              child: Text("Adresse de l'assuré : ",
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -120,7 +122,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                                   right:
                                       MediaQuery.of(context).size.width * 0.02),
                               alignment: Alignment.centerLeft,
-                              child: Text("Adresse de l'hopital : 213457 ",
+                              child: Text("Adresse de l'hopital : still static ! ",
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -136,7 +138,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                                   right:
                                       MediaQuery.of(context).size.width * 0.02),
                               alignment: Alignment.centerLeft,
-                              child: Text("Déscription : 213457 ",
+                              child: Text("Déscription : " +demande!.description,
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -178,7 +180,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                                       Image.asset('assets/images/assure.jpg'),
                                 ),
                                 Container(
-                                  child: Text('SAADANI \nMohammed ',
+                                  child: Text(demande!.patient!.lastName+ '\n' +demande!.patient!.firstName,
                                       style: GoogleFonts.poppins(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700,
@@ -196,7 +198,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                               left: MediaQuery.of(context).size.width * 0.02,
                               right: MediaQuery.of(context).size.width * 0.02),
                           alignment: Alignment.centerLeft,
-                          child: Text('N° de sécurité sociale : 213457 ',
+                          child: Text('N° de sécurité sociale :  ' + demande!.patient!.nss,
                               style: GoogleFonts.poppins(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -210,7 +212,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                               left: MediaQuery.of(context).size.width * 0.02,
                               right: MediaQuery.of(context).size.width * 0.02),
                           alignment: Alignment.centerLeft,
-                          child: Text('Date de naissance : 14/06/1966',
+                          child: Text('Date de naissance : ' +demande!.patient!.dateNaissance,
                               style: GoogleFonts.poppins(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -224,7 +226,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                               left: MediaQuery.of(context).size.width * 0.02,
                               right: MediaQuery.of(context).size.width * 0.02),
                           alignment: Alignment.centerLeft,
-                          child: Text('Wilaya : Alger',
+                          child: Text('Wilaya : ' +demande!.patient!.wilaya,
                               style: GoogleFonts.poppins(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -238,6 +240,8 @@ class _DetailDemandeState extends State<DetailDemande> {
               height: MediaQuery.of(context).size.height * 0.05,
             ),
             Row(
+
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                     decoration: BoxDecoration(
@@ -339,47 +343,46 @@ class _DetailDemandeState extends State<DetailDemande> {
         ));
   }
 
-  // Future<void> getDemande() async {
-  //   final demandeModel = DemandeModel();
+  Future<void> getDemandeById() async {
+    final demandeModel = DemandeModel();
 
-  //   dio.Response? response = await demandeModel.getDemande();
+    dio.Response? response = await demandeModel.getDemandeById(widget.id);
 
-  //   if (response != null) {
-  //     print(response.data);
-  //     for (var i in response.data) {
-  //       var demande = Demande.fromJson(i);
-  //       listDemande.add(demande);
-  //     }
-  //   }
+    if (response != null) {
+      print(response.data);
 
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
+        demande = Demande.fromJson(response.data);
 
-  // getStateColor(String state) {
-  //   switch (state) {
-  //     case 'en cours':
-  //       return yellow;
-  //     case 'validé':
-  //       return green;
-  //     case 'accepté':
-  //       return blue;
-  //     case 'refusé':
-  //       return red;
-  //   }
-  // }
+    }
 
-  // getStateBackColor(String state) {
-  //   switch (state) {
-  //     case 'en cours':
-  //       return lightYellow;
-  //     case 'validé':
-  //       return lightGreen;
-  //     case 'accepté':
-  //       return lightBlue;
-  //     case 'refusé':
-  //       return lightRed;
-  //   }
-  // }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  getStateColor(String state) {
+    switch (state) {
+      case 'en cours':
+        return yellow;
+      case 'validé':
+        return green;
+      case 'accepté':
+        return blue;
+      case 'refusé':
+        return red;
+    }
+  }
+
+  getStateBackColor(String state) {
+    switch (state) {
+      case 'en cours':
+        return lightYellow;
+      case 'validé':
+        return lightGreen;
+      case 'accepté':
+        return lightBlue;
+      case 'refusé':
+        return lightRed;
+    }
+  }
 }

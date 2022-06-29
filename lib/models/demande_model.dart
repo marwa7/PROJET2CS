@@ -18,6 +18,24 @@ class DemandeModel {
         ),
       );
 
+      return response;
+    } on dio.DioError catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return e.response;
+    }
+  }
+
+  Future<dio.Response?> getDemandeById(String id) async {
+    try {
+      dio.Response response = await _dioClient.get(
+        demandeUrl+"/$id",
+        options: dio.Options(
+          contentType: "application/json",
+        ),
+      );
+
       if (kDebugMode) {
         print(response.data);
       }
