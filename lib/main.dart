@@ -3,6 +3,7 @@ import 'dart:js';
 import 'package:cnas/config/generale_vars.dart';
 import 'package:cnas/viewmodels/patient_viewmodel.dart';
 import 'package:cnas/views/home.dart';
+import 'package:cnas/views/proposition/detail_proposition.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cnas/viewmodels/auth/login_viewmodel.dart';
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       debugShowCheckedModeBanner: false,
       navigatorKey: mainNavigatorKey,
       routes: {
-        '/': (context) => DetailDemande(),
+        '/': (context) => DetailProposition(),
       },
       initialRoute: '/',
     );

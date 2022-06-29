@@ -7,23 +7,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cnas/config/size_config.dart';
 import 'package:dio/dio.dart' as dio;
 
-class DetailDemande extends StatefulWidget {
-  const DetailDemande({Key? key}) : super(key: key);
+class DetailProposition extends StatefulWidget {
+  const DetailProposition({Key? key}) : super(key: key);
 
   @override
-  State<DetailDemande> createState() => _DetailDemandeState();
+  State<DetailProposition> createState() => _DetailPropositionState();
 }
 
-class _DetailDemandeState extends State<DetailDemande> {
-  // List<Demande> listDemande = [];
-  // bool isLoading = true;
-
-  // @override
-  // void initState() {
-  //   getDemande();
-  //   super.initState();
-  // }
-
+class _DetailPropositionState extends State<DetailProposition> {
   @override
   Widget build(BuildContext context) {
     //Size screenWidth = MediaQuery.of(context).size.width as Size;
@@ -32,8 +23,8 @@ class _DetailDemandeState extends State<DetailDemande> {
     return Scaffold(
         backgroundColor: Color(0xFFECF1FD),
         body: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.05,
@@ -58,25 +49,12 @@ class _DetailDemandeState extends State<DetailDemande> {
                               padding: EdgeInsets.only(
                                   left:
                                       MediaQuery.of(context).size.width * 0.02),
-                              child: Text('Demande N° xxxxxx ',
+                              child: Text('Proposition N° xxxxxx ',
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.black)),
                             ),
-                            Container(
-                              alignment: Alignment.center,
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              width: MediaQuery.of(context).size.width * 0.1,
-                              color: Colors.lightGreen,
-                              child: Text(
-                                'ETAT',
-                                style: GoogleFonts.poppins(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green),
-                              ),
-                            )
                           ],
                         )),
                     SizedBox(
@@ -104,7 +82,23 @@ class _DetailDemandeState extends State<DetailDemande> {
                                   right:
                                       MediaQuery.of(context).size.width * 0.02),
                               alignment: Alignment.centerLeft,
-                              child: Text("Adresse de l'assuré : 213457 ",
+                              child: Text("Concerne ",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black)),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.01,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  right:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              alignment: Alignment.centerLeft,
+                              child: Text("La demande N°  :  213457 ",
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -120,23 +114,8 @@ class _DetailDemandeState extends State<DetailDemande> {
                                   right:
                                       MediaQuery.of(context).size.width * 0.02),
                               alignment: Alignment.centerLeft,
-                              child: Text("Adresse de l'hopital : 213457 ",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black)),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width * 0.02,
-                                  right:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              alignment: Alignment.centerLeft,
-                              child: Text("Déscription : 213457 ",
+                              child: Text(
+                                  "Le transporteur  :  nom de transporteur ",
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -248,6 +227,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                     height: MediaQuery.of(context).size.height * 0.35,
                     width: MediaQuery.of(context).size.width * 0.35,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
@@ -310,48 +290,28 @@ class _DetailDemandeState extends State<DetailDemande> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton.icon(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.red),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(
-                                          MediaQuery.of(context).size.height *
-                                              0.03)),
-                                  textStyle: MaterialStateProperty.all(
-                                      TextStyle(fontSize: 15))),
-                              onPressed: () {},
-                              icon: Icon(Icons.cancel),
-                              label: Text("Refuser"),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              child: Text('Rembourssement',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black)),
                             ),
-                            ElevatedButton.icon(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.green),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(
-                                          MediaQuery.of(context).size.height *
-                                              0.03)),
-                                  textStyle: MaterialStateProperty.all(
-                                      TextStyle(fontSize: 15))),
-                              onPressed: () {},
-                              icon: Icon(Icons.check_circle),
-                              label: Text("Accepter"),
-                            ),
-                            ElevatedButton.icon(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Color(0xFF1045F7)),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(
-                                          MediaQuery.of(context).size.height *
-                                              0.03)),
-                                  textStyle: MaterialStateProperty.all(
-                                      TextStyle(fontSize: 15))),
-                              onPressed: () {},
-                              icon: Icon(Icons.add),
-                              label: Text("Ajouter proposition"),
-                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              // height: MediaQuery.of(context).size.height * 0.1,
+                              // width: MediaQuery.of(context).size.width * 0.1,
+                              child: Text(
+                                'PRIX DA',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
+                            )
                           ],
                         ),
                       ],
