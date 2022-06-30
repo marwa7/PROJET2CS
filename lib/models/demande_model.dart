@@ -48,4 +48,26 @@ class DemandeModel {
       return e.response;
     }
   }
+
+  Future<dio.Response?> updateDemande(String id , String etat) async {
+    try {
+      dio.Response response = await _dioClient.put(
+        demandeUrl+"/$id" +"/$etat",
+        options: dio.Options(
+          contentType: "application/json",
+        ),
+      );
+
+      if (kDebugMode) {
+        print(response.data);
+      }
+
+      return response;
+    } on dio.DioError catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return e.response;
+    }
+  }
 }

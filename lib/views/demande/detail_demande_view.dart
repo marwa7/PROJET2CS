@@ -70,13 +70,13 @@ class _DetailDemandeState extends State<DetailDemande> {
                               alignment: Alignment.center,
                               height: MediaQuery.of(context).size.height * 0.1,
                               width: MediaQuery.of(context).size.width * 0.1,
-                              color: Colors.lightGreen,
+                              color: getStateBackColor( demande!.etat),
                               child: Text(
                                 demande!.etat,
                                 style: GoogleFonts.poppins(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
-                                    color: getStateColor( demande!.etat)),
+                                    color: getStateColor(demande!.etat)),
                               ),
                             )
                           ],
@@ -106,7 +106,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                                   right:
                                       MediaQuery.of(context).size.width * 0.02),
                               alignment: Alignment.centerLeft,
-                              child: Text("Adresse de l'assuré : ",
+                              child: Text("Adresse de l'assuré : " +demande!.adresse_patient,
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -122,7 +122,7 @@ class _DetailDemandeState extends State<DetailDemande> {
                                   right:
                                       MediaQuery.of(context).size.width * 0.02),
                               alignment: Alignment.centerLeft,
-                              child: Text("Adresse de l'hopital : still static ! ",
+                              child: Text("Adresse de l'hopital :  " +demande!.adresse_hop,
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -311,18 +311,43 @@ class _DetailDemandeState extends State<DetailDemande> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                         ),
-                        ElevatedButton.icon(
-                          style: ButtonStyle(
-                              backgroundColor:
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton.icon(
+                              style: ButtonStyle(
+                                  backgroundColor:
                                   MaterialStateProperty.all(Color(0xFF1045F7)),
-                              padding: MaterialStateProperty.all(EdgeInsets.all(
-                                  MediaQuery.of(context).size.height * 0.03)),
-                              textStyle: MaterialStateProperty.all(
-                                  TextStyle(fontSize: 15))),
-                          onPressed: () {},
-                          icon: Icon(Icons.add),
-                          label: Text("Modifier l'état de la demande"),
-                        ),
+                                  padding: MaterialStateProperty.all(EdgeInsets.all(
+                                      MediaQuery.of(context).size.height * 0.01)),
+                                  textStyle: MaterialStateProperty.all(
+                                      TextStyle(fontSize: 15))),
+                              onPressed: () {
+                                updateDemandebyId("valide");
+                              },
+                              icon: Icon(Icons.check),
+                              label: Text("accepter"),
+
+                            ),
+                            ElevatedButton.icon(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                  MaterialStateProperty.all(Color(0xFF1045F7)),
+                                  padding: MaterialStateProperty.all(EdgeInsets.all(
+                                      MediaQuery.of(context).size.height * 0.01)),
+                                  textStyle: MaterialStateProperty.all(
+                                      TextStyle(fontSize: 15))),
+                              onPressed: () {
+                                updateDemandebyId("refuse");
+                              },
+                              icon: Icon(Icons.close),
+                              label: Text("refuser"),
+                            ),
+                          ],
+                        )
+
+
+
                       ],
                     )),
                 SizedBox(
@@ -360,15 +385,30 @@ class _DetailDemandeState extends State<DetailDemande> {
     });
   }
 
+
+  Future<void> updateDemandebyId(etat) async {
+    final demandeModel = DemandeModel();
+
+    dio.Response? response = await demandeModel.updateDemande(widget.id ,etat) ;
+
+    if (response != null) {
+      print(response.data);
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   getStateColor(String state) {
     switch (state) {
       case 'en cours':
         return yellow;
-      case 'validé':
+      case 'valide':
         return green;
-      case 'accepté':
+      case 'accepte':
         return blue;
-      case 'refusé':
+      case 'refuse':
         return red;
     }
   }
@@ -377,11 +417,11 @@ class _DetailDemandeState extends State<DetailDemande> {
     switch (state) {
       case 'en cours':
         return lightYellow;
-      case 'validé':
+      case 'valide':
         return lightGreen;
-      case 'accepté':
+      case 'accepte':
         return lightBlue;
-      case 'refusé':
+      case 'refuse':
         return lightRed;
     }
   }

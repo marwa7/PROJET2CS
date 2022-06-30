@@ -125,6 +125,7 @@ class _ListDemandeState extends State<ListDemande> {
                             height: MediaQuery.of(context).size.height * 0.08,
                             child: Row(
                               children: [
+                                Container(),
                                 Container(
                                     alignment: Alignment.center,
                                     width: MediaQuery.of(context).size.width *
@@ -175,7 +176,7 @@ class _ListDemandeState extends State<ListDemande> {
                                           color: getStateColor(
                                               listDemande[index].etat)),
                                     )),
-                              ],
+                              ],//com
                             ),
                           )),
                         ),
@@ -209,11 +210,11 @@ class _ListDemandeState extends State<ListDemande> {
     switch (state) {
       case 'en cours':
         return yellow;
-      case 'validé':
+      case 'valide':
         return green;
-      case 'accepté':
+      case 'accepte':
         return blue;
-      case 'refusé':
+      case 'refuse':
         return red;
     }
   }
@@ -222,11 +223,11 @@ class _ListDemandeState extends State<ListDemande> {
     switch (state) {
       case 'en cours':
         return lightYellow;
-      case 'validé':
+      case 'valide':
         return lightGreen;
-      case 'accepté':
+      case 'accepte':
         return lightBlue;
-      case 'refusé':
+      case 'refuse':
         return lightRed;
     }
   }

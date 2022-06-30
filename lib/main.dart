@@ -1,7 +1,9 @@
 import 'dart:js';
 
 import 'package:cnas/config/generale_vars.dart';
+import 'package:cnas/models/auth/login_model.dart';
 import 'package:cnas/viewmodels/patient_viewmodel.dart';
+import 'package:cnas/views/demande/list_demande_view.dart';
 import 'package:cnas/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       debugShowCheckedModeBanner: false,
       navigatorKey: mainNavigatorKey,
       routes: {
-        '/': (context) => LoginView(),
+        '/': (context) => Home(),
       },
       initialRoute: '/',
     );
